@@ -15,3 +15,63 @@ Apresenta um menu que permite ao usuário escolher entre identificar um triângu
 
 **estoque_cantina.py (15/10/2025)**  
 Sistema modular para controle de estoque de uma cantina escolar. Permite registrar, atualizar e consultar produtos (comidas e bebidas), realizar reposição automática e gerar relatórios em arquivo de texto.
+
+**sistema_bancario.py (27/10/2025)**  
+Sistema orientado a objetos que simula um ambiente bancário simples.  
+Inclui diferentes tipos de contas (Digital, Corrente e Poupança), além de um gerenciamento centralizado pelo banco.  
+Permite **cadastrar contas, realizar transferências, aplicar rendimentos, cobrar taxas e listar contas**.
+
+---
+
+## Diagrama de Classes – Sistema Bancário
+
+O diagrama abaixo representa a estrutura do sistema bancário, destacando as relações entre as classes `Banco`, `Conta`, `Corrente`, `Poupanca` e `Digital`.
+
+```mermaid
+classDiagram
+    class Registro {
+        -str agencia
+        -str conta
+        +getAgencia()
+        +getConta()
+    }
+
+    class Conta {
+        -str nome
+        -Registro registro
+        -float saldo
+        +getSaldo() float
+        +creditar(valor: float)
+        +debitar(valor: float)
+    }
+
+    class Digital {
+        +__init__(nome, registro, saldo)
+    }
+
+    class Corrente {
+        -float limite
+        -float taxa_manutencao
+        +limiteDisponivel() float
+        +cobrarTaxa()
+    }
+
+    class Poupanca {
+        -float taxa_rendimento
+        +calcularRendimento() float
+        +aplicarRendimento()
+    }
+
+    class Banco {
+        -list contas
+        +cadastrar(conta: Conta)
+        +procurarConta(registro: Registro)
+        +transferir(origem: Conta, destino: Conta, valor: float)
+        +listarContas() list
+    }
+
+    Conta <|-- Digital
+    Conta <|-- Corrente
+    Conta <|-- Poupanca
+    Banco --> Conta : "gerencia"
+    Conta --> Registro : "possui"
